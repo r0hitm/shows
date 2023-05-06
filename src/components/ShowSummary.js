@@ -5,8 +5,19 @@ export default function ShowSummary({
     show,
     hideSummary,
     handleTicketBooking,
-    ticketData
+    ticketData,
 }) {
+    // If ticketData is not present, initialize it with empty values
+    if (!ticketData) {
+        ticketData = {
+            name: "",
+            email: "",
+            number_of_tickets: 1,
+            date: "",
+        };
+    }
+
+    // Keep track of whether the modal is open or not
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
@@ -84,6 +95,7 @@ export default function ShowSummary({
                                 name="date"
                                 id="date"
                                 className="form-control"
+                                defaultValue={ticketData.date}
                                 required
                             />
                         </div>

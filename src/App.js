@@ -10,13 +10,11 @@ function App() {
     // another state to store which show is selected and display its summary
     const [selectedShow, setSelectedShow] = useState(null);
 
-    const [ticketData, setTicketData] = useState({
-        showID: 0,
-        name: "",
-        email: "",
-        number_of_tickets: "",
-        date: "",
-    });
+    // Dictionary to store all of the booked tickets
+    // Key = showID, Value = {name, email, number_of_tickets, date}
+    const [ticketData, setTicketData] = useState(
+        JSON.parse(localStorage.getItem("ticketData")) || {}
+    );
 
     // Fetch the shows from the given API
     useEffect(() => {
@@ -36,19 +34,25 @@ function App() {
     function bookTicket(event) {
         event.preventDefault();
         const form = new FormData(event.target);
-        console.log("bookTicket: form", form);
         // extract the form data from the form
         const formData = {};
         form.forEach(function (value, key) {
             formData[key] = value;
         });
-        formData.showID = selectedShow.show.id;
-        console.log("bookTicket: formData", formData);
-        localStorage.setItem(formData.showID, JSON.stringify(formData));
-        setTicketData(formData);
 
-        // // also update the ticket data key, for 
-        // setTicketData(JSON.parse(localStorage.getItem(formData.showID)));
+        const newTicketData = {
+            ...ticketData,
+            [selectedShow.show.id]: formData,
+        };
+
+        // update the ticketData state
+        setTicketData(newTicketData);
+
+        // hide the summary
+        setSelectedShow(null);
+
+        // save the ticket data to local storage
+        localStorage.setItem("ticketData", JSON.stringify(newTicketData));
     }
 
     if (selectedShow) {
@@ -59,7 +63,7 @@ function App() {
                     show={selectedShow}
                     hideSummary={() => setSelectedShow(null)}
                     handleTicketBooking={bookTicket}
-                    ticketData={ticketData}
+                    ticketData={ticketData[selectedShow.show.id]}
                 />
                 <Footer />
             </>
