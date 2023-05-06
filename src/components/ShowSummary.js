@@ -3,23 +3,23 @@ import "../styles/ShowSummary.css";
 
 export default function ShowSummary({ show, hideSummary }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        phone: "",
-    });
+    const [formData, setFormData] = useState(
+        JSON.parse(localStorage.getItem("formData")) || {
+            name: "",
+            email: "",
+            number_of_tickets: "",
+        }
+    );
 
-    const handleInputChange = event => {
+    const handleSubmit = event => {
+        event.preventDefault();
         setFormData({
             ...formData,
             [event.target.name]: event.target.value,
         });
-    };
-
-    const handleSubmit = event => {
-        event.preventDefault();
         // Save the form data to local storage here
         setIsModalOpen(false);
+        localStorage.setItem("formData", JSON.stringify(formData));
     };
 
     return (
@@ -37,35 +37,44 @@ export default function ShowSummary({ show, hideSummary }) {
             >
                 Book Movie Ticket
             </button>
+
             {isModalOpen && (
                 <dialog open>
                     <form onSubmit={handleSubmit}>
                         <h2>{show.show.name}</h2>
-                        <label htmlFor="name">Name:</label>
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleInputChange}
-                        />
-                        <label htmlFor="email">Email:</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleInputChange}
-                        />
-                        <label htmlFor="phone">Phone:</label>
-                        <input
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleInputChange}
-                        />
-                        <button type="submit">Book Ticket</button>
+                        <div className="form-group">
+                            <label htmlFor="name">Name</label>
+                            <input
+                                type="text"
+                                name="name"
+                                id="name"
+                                className="form-control"
+                                defaultValue={formData.name}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                className="form-control"
+                                defaultValue={formData.email}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="number_of_tickets">
+                                Number of Tickets
+                            </label>
+                            <input
+                                type="number"
+                                name="number_of_tickets"
+                                id="number_of_tickets"
+                                className="form-control"
+                                defaultValue={formData.number_of_tickets}
+                            />
+                        </div>
+                        <button className="btn btn-primary">Submit</button>
                     </form>
                 </dialog>
             )}

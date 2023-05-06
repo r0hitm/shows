@@ -9,6 +9,7 @@ function App() {
     // another state to store which show is selected and display its summary
     const [selectedShow, setSelectedShow] = useState(null);
 
+    // Fetch the shows from the given API
     useEffect(() => {
         fetch("https://api.tvmaze.com/search/shows?q=all")
             .then(response => response.json())
