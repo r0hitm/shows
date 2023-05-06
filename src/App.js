@@ -1,25 +1,42 @@
 import React, { useState, useEffect } from "react";
+import ShowList from "./components/ShowList";
+import ShowSummary from "./components/ShowSummary";
 
 function App() {
-  const [data, setData] = useState([]);
+    // shows is an array of objects that will be fetched from the API
+    const [shows, setShows] = useState([]);
 
-  useEffect(() => {
-    fetch("https://api.tvmaze.com/search/shows?q=all")
-      .then((response) => response.json())
-      .then((data) => setData(data));
-  }, []);
+    // another state to store which show is selected and display its summary
+    const [selectedShow, setSelectedShow] = useState(null);
 
-  return (
-    <div>
-      {data.map((item) => (
-        <div key={item.show.id}>
-          <h3>{item.show.name}</h3>
-          <p>{item.show.summary}</p>
-          <button>View Summary</button>
-        </div>
-      ))}
-    </div>
-  );
+    useEffect(() => {
+        fetch("https://api.tvmaze.com/search/shows?q=all")
+            .then(response => response.json())
+            .then(data => setShows(data))
+            .catch(error => console.log(error));
+    }, []);
+
+    if (selectedShow) {
+        const show = shows.find(show => show.show.id === selectedShow);
+        return (
+            <ShowSummary
+                show={show}
+                hideSummary={_ => setSelectedShow(null)}
+                selectedShow={selectedShow}
+            />
+        );
+    } else {
+        return (
+            <div className="container">
+                <h1>TV Shows</h1>
+                <ShowList
+                    shows={shows}
+                    handleShowSummary={showId => setSelectedShow(showId)}
+                    selectedShow={selectedShow}
+                />
+            </div>
+        );
+    }
 }
 
 export default App;
