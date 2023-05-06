@@ -1,26 +1,13 @@
 import { useState } from "react";
 import "../styles/ShowSummary.css";
 
-export default function ShowSummary({ show, hideSummary }) {
+export default function ShowSummary({
+    show,
+    hideSummary,
+    handleTicketBooking,
+    ticketData
+}) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [formData, setFormData] = useState(
-        JSON.parse(localStorage.getItem("formData")) || {
-            name: "",
-            email: "",
-            number_of_tickets: "",
-        }
-    );
-
-    const handleSubmit = event => {
-        event.preventDefault();
-        setFormData({
-            ...formData,
-            [event.target.name]: event.target.value,
-        });
-        // Save the form data to local storage here
-        setIsModalOpen(false);
-        localStorage.setItem("formData", JSON.stringify(formData));
-    };
 
     return (
         <div className="show">
@@ -49,7 +36,10 @@ export default function ShowSummary({ show, hideSummary }) {
                 <dialog className="modal" open>
                     <form
                         className="ticket-booking-form"
-                        onSubmit={handleSubmit}
+                        onSubmit={event => {
+                            handleTicketBooking(event);
+                            setIsModalOpen(false);
+                        }}
                     >
                         <h3>Book Your Ticket</h3>
                         <div className="form-group">
@@ -59,7 +49,8 @@ export default function ShowSummary({ show, hideSummary }) {
                                 name="name"
                                 id="name"
                                 className="form-control"
-                                defaultValue={formData.name}
+                                defaultValue={ticketData.name}
+                                required
                             />
                         </div>
                         <div className="form-group">
@@ -69,7 +60,8 @@ export default function ShowSummary({ show, hideSummary }) {
                                 name="email"
                                 id="email"
                                 className="form-control"
-                                defaultValue={formData.email}
+                                defaultValue={ticketData.email}
+                                required
                             />
                         </div>
                         <div className="form-group">
@@ -81,7 +73,8 @@ export default function ShowSummary({ show, hideSummary }) {
                                 name="number_of_tickets"
                                 id="number_of_tickets"
                                 className="form-control"
-                                defaultValue={formData.number_of_tickets}
+                                defaultValue={ticketData.number_of_tickets}
+                                required
                             />
                         </div>
                         <div className="form-group">
@@ -91,10 +84,11 @@ export default function ShowSummary({ show, hideSummary }) {
                                 name="date"
                                 id="date"
                                 className="form-control"
+                                required
                             />
                         </div>
                         <div className="btn-group">
-                            <button>Submit</button>
+                            <button type="submit">Submit</button>
                             <button onClick={() => setIsModalOpen(false)}>
                                 Cancel
                             </button>
