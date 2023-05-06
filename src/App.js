@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ShowList from "./components/ShowList";
 import ShowSummary from "./components/ShowSummary";
+import "./styles/App.css";
 
 function App() {
     // shows is an array of objects that will be fetched from the API
@@ -18,26 +19,49 @@ function App() {
     }, []);
 
     if (selectedShow) {
-        const show = shows.find(show => show.show.id === selectedShow);
         return (
-            <ShowSummary
-                show={show}
-                hideSummary={_ => setSelectedShow(null)}
-                selectedShow={selectedShow}
-            />
+            <>
+                <Header />
+                <ShowSummary
+                    show={selectedShow}
+                    hideSummary={() => setSelectedShow(null)}
+                />
+                <Footer />
+            </>
         );
     } else {
         return (
-            <div className="container">
-                <h1>TV Shows</h1>
+            <>
+                <Header />
                 <ShowList
                     shows={shows}
-                    handleShowSummary={showId => setSelectedShow(showId)}
-                    selectedShow={selectedShow}
+                    handleShowSummary={id =>
+                        setSelectedShow(shows.find(show => show.show.id === id))
+                    }
                 />
-            </div>
+                <Footer />
+            </>
         );
     }
+}
+
+function Header() {
+    return (
+        <header>
+            <h1>TV Shows</h1>
+        </header>
+    );
+}
+
+function Footer() {
+    return (
+        <footer className="footer">
+            <p>
+                Made by Rohit Mehta &copy; 2023 |{" "}
+                <a href="https://github.com/r0hitm/shows">View On GitHub</a>
+            </p>
+        </footer>
+    );
 }
 
 export default App;
