@@ -23,25 +23,40 @@ export default function ShowSummary({ show, hideSummary }) {
     };
 
     return (
-        <div className="container">
-            <h1>{show.show.name}</h1>
-            <img src={show.show.image?.medium} alt="" />
-            {/* The show summary is formatted using html tags so don't need to explicity use <p> here */}
-            <div dangerouslySetInnerHTML={{ __html: show.show.summary }}></div>
-            <button className="btn btn-primary" onClick={hideSummary}>
-                Hide Summary
-            </button>
-            <button
-                className="btn btn-primary"
-                onClick={() => setIsModalOpen(true)}
-            >
-                Book Movie Ticket
-            </button>
-
+        <div className="show">
+            <img className="show-img" src={show.show.image?.medium} alt="" />
+            <div>
+                <h2 className="show-name">{show.show.name}</h2>
+                {/* The show summary is formatted using html tags so don't need to explicity use <p> here */}
+                <div
+                    className="show-summary"
+                    dangerouslySetInnerHTML={{ __html: show.show.summary }}
+                ></div>
+                <div className="show-rating">
+                    <span>Rating: {show.show.rating.average}</span>
+                </div>
+                <div className="show-language">
+                    <span>Language: {show.show.language}</span>
+                </div>
+                <div className="btn-group">
+                    <button className="btn btn-primary" onClick={hideSummary}>
+                        Hide Summary
+                    </button>
+                    <button
+                        className="btn btn-primary"
+                        onClick={() => setIsModalOpen(true)}
+                    >
+                        Book Movie Ticket
+                    </button>
+                </div>
+            </div>
             {isModalOpen && (
-                <dialog open>
-                    <form onSubmit={handleSubmit}>
-                        <h2>{show.show.name}</h2>
+                <dialog className="modal" open>
+                    <form
+                        className="ticket-booking-form"
+                        onSubmit={handleSubmit}
+                    >
+                        <h3>Book Your Ticket</h3>
                         <div className="form-group">
                             <label htmlFor="name">Name</label>
                             <input
@@ -72,6 +87,15 @@ export default function ShowSummary({ show, hideSummary }) {
                                 id="number_of_tickets"
                                 className="form-control"
                                 defaultValue={formData.number_of_tickets}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="date">Date</label>
+                            <input
+                                type="date"
+                                name="date"
+                                id="date"
+                                className="form-control"
                             />
                         </div>
                         <button className="btn btn-primary">Submit</button>

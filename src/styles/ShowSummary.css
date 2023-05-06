@@ -1,6 +1,62 @@
-dialog {
+.modal {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
+}
+
+.modal::backdrop {
+  backdrop-filter: blur(8px);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.show {
+    margin: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.show .show-img {
+    margin: 1rem auto;
+    scale: 1.5;
+}
+
+.show-summary {
+    margin-bottom: 1rem;
+}
+
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.btn-group button {
+    flex-basis: calc(50% - 0.5rem);
+}
+
+.ticket-booking-form .form-group {
+    margin-bottom: 1rem;
+}
+
+/* Media query for two columns on larger screens */
+@media (min-width: 768px) {
+    .show {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        grid-gap: 1rem;
+        align-items: center;
+    }
+
+    .btn-group {
+        flex-direction: row;
+    }
+
+    .btn-group button {
+        width: 100%;
+    }
+}
