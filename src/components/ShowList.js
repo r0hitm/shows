@@ -21,10 +21,7 @@ export default function ShowList({ shows, handleShowSummary }) {
                         <div className="show-language">
                             <span>Language: {show.show.language}</span>
                         </div>
-                        <button
-                            className="btn btn-primary"
-                            onClick={_ => handleShowSummary(show.show.id)}
-                        >
+                        <button onClick={_ => handleShowSummary(show.show.id)}>
                             Show Summary
                         </button>
                     </div>

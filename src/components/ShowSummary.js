@@ -39,13 +39,8 @@ export default function ShowSummary({ show, hideSummary }) {
                     <span>Language: {show.show.language}</span>
                 </div>
                 <div className="btn-group">
-                    <button className="btn btn-primary" onClick={hideSummary}>
-                        Hide Summary
-                    </button>
-                    <button
-                        className="btn btn-primary"
-                        onClick={() => setIsModalOpen(true)}
-                    >
+                    <button onClick={hideSummary}>Hide Summary</button>
+                    <button onClick={() => setIsModalOpen(true)}>
                         Book Movie Ticket
                     </button>
                 </div>
@@ -98,7 +93,12 @@ export default function ShowSummary({ show, hideSummary }) {
                                 className="form-control"
                             />
                         </div>
-                        <button className="btn btn-primary">Submit</button>
+                        <div className="btn-group">
+                            <button>Submit</button>
+                            <button onClick={() => setIsModalOpen(false)}>
+                                Cancel
+                            </button>
+                        </div>
                     </form>
                 </dialog>
             )}
