@@ -7,7 +7,3 @@ This project will be used to asses an internship opportunity.
 👉 [Live Demo](#)
 
 **Author**: [Rohit Mehta](https://github.com/r0hitm) &copy; 2023
-
----
-
-[Problem Statement](https://docs.google.com/document/d/1NvYWYbK9pdP-tDXZB_cdiGoxybzDexmH_pemMwxGytQ)
